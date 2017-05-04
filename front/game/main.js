@@ -1,96 +1,111 @@
-var shotPoint = game.newCircleObject({
-	radius: 3
-});
+import StartVars from './startVars'
+import Person from './person'
+import Specials from './specials'
+import Items from './items'
 
 
-var deathAnim =  pjs.tiles.newImage("assets/death.png").getAnimation(0,0,177,177,18);
-	/*var deathObj = game.newAnimationObject({
-		x: 400,
-		y: 400,
-		animation: deathAnim,
-		w: 150,
-		h: 150,
-	});*/
-	
+(function () {
 
+    let startVars = new StartVars();
 
-game.newLoop("l1", function()
-{
-    game.clear();
-    oPos = player.obj.getPositionC();
-	
-	map.draw();
-	
-    enemy.draw();
+    //initializing properties of singleton StartVars:
 
-	if(!pause.pause){
-		player.do();
-	
-		camera.moveTimeC(pjs.vector.getPointAngle(point(oPos.x + 150, oPos.y), oPos, shotPoint.getAngle()),20);
-		shotPoint.setPositionC(oPos);
-		shotPoint.rotate(mouse.getPosition());
-	
-		weapon.fire();
-	}
-	
-	if(key.isPress("C")) console.log(player.obj.x + " " + player.obj.y);
-	
-	weapon.moveWeapon();
-	
-	
-	items.draw();
-	
-	timer.drawTimer();
-	
-	specials.checkSpec();
-    
-    gui.draw();
-	
-	pause.pauseWork();    
-});
+    startVars.players.push(new Person("assets/p2.png"));
+    startVars.players[0].init();
+
+    startVars.oPos = startVars.players[0].obj.getPositionC();
+    startVars.specials = new Specials();
+
+    startVars.items = new Items();
+    startVars.items.generateWeapon();
+    // items.generateBox();
+    startVars.items.generateMedkit();
+    startVars.items.generateRack();
 
 
 
-game.newLoop("tutorial", function()
-{
-    game.clear();
-    oPos = player.obj.getPositionC();
-	
-	map.draw();
-	
-    for(let i = 0; i < 5; i++){
-		enemies[i].draw();	
-	}
+    let img = startVars.pjs.tiles.newImage("assets/p2.png");
 
-	if(!pause.pause){
-		player.do();
-	
-		camera.moveTimeC(pjs.vector.getPointAngle(point(oPos.x + 150, oPos.y), oPos, shotPoint.getAngle()),20);
-		shotPoint.setPositionC(oPos);
-		shotPoint.rotate(mouse.getPosition());
-	
-		weapon.fire();
-	}
-	
-	if(key.isPress("C")) console.log(player.obj.x + " " + player.obj.y);
-	
-	weapon.moveWeapon();
-	
-	
-	items.draw();
-	
-	timer.drawTimer();
-	
-	specials.checkSpec();
-    
-    gui.draw();
-	
-	if(!tutorialEnd){
-		drawTutorial();
-	}else{
+    let shotPoint = startVars.game.newCircleObject({
+        radius: 3
+    });
+
+    let deathAnim = startVars.pjs.tiles.newImage("assets/death.png").getAnimation(0, 0, 177, 177, 18);
+
+    startVars.game.newLoop("l1", function () {
+        startVars.game.clear();
+        startVars.oPos = player.obj.getPositionC();
+
+        map.draw();
+
+        enemy.draw();
+
+        if (!pause.pause) {
+            player.do();
+
+            camera.moveTimeC(pjs.vector.getPointAngle(point(oPos.x + 150, oPos.y), oPos, shotPoint.getAngle()), 20);
+            shotPoint.setPositionC(oPos);
+            shotPoint.rotate(mouse.getPosition());
+
+            weapon.fire();
+        }
+
+        if (key.isPress("C")) console.log(player.obj.x + " " + player.obj.y);
+
+        weapon.moveWeapon();
+
+
+        items.draw();
+
+        timer.drawTimer();
+
+        specials.checkSpec();
+
+        gui.draw();
+
         pause.pauseWork();
-    }    
-});
+    });
 
-//game.startLoop("l1");
-game.startLoop("tutorial");
+
+    game.newLoop("tutorial", function () {
+        game.clear();
+        oPos = player.obj.getPositionC();
+
+        map.draw();
+
+        for (let i = 0; i < 5; i++) {
+            enemies[i].draw();
+        }
+
+        if (!pause.pause) {
+            player.do();
+
+            camera.moveTimeC(pjs.vector.getPointAngle(point(oPos.x + 150, oPos.y), oPos, shotPoint.getAngle()), 20);
+            shotPoint.setPositionC(oPos);
+            shotPoint.rotate(mouse.getPosition());
+
+            weapon.fire();
+        }
+
+        if (key.isPress("C")) console.log(player.obj.x + " " + player.obj.y);
+
+        weapon.moveWeapon();
+
+
+        items.draw();
+
+        timer.drawTimer();
+
+        specials.checkSpec();
+
+        gui.draw();
+
+        if (!tutorialEnd) {
+            drawTutorial();
+        } else {
+            pause.pauseWork();
+        }
+    });
+
+    startVars.game.startLoop("tutorial");
+})();

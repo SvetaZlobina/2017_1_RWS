@@ -13,14 +13,15 @@
     <link rel="stylesheet" type="text/css" href="static/css/menu.css" />
     <!--<link rel="stylesheet" type="text/css" href="static/css/mode.css" />-->
     <link rel="stylesheet" type="text/css" href="static/css/rating.css" />
+    <link rel="stylesheet" type="text/css" href="static/css/load.css" />
     <link rel="stylesheet" type="text/css" href="static/css/animate-custom.css" />
     <!--<link rel="stylesheet" type="text/css" href="static/css/mode.css" />-->
-
 
 </head>
    
 <body>
 
+    <!--Site-->
     <div class="maincontainer mainmenu">
 
         <div class="container-left">
@@ -28,6 +29,7 @@
         </div>
 
         <div class="container">
+            <div id="load" class="spinner"></div>
             <div id="ind"></div>
             <div id="rat"></div>
             <div id="about"></div>
@@ -36,7 +38,7 @@
         </div>
 
         <div class="container-right">
-            <img id="sBut" class = "soundButton" src="resources/soundOn.png" onclick="manage.sound()">
+            <img id="sBut" class = "soundButton" src="resources/soundOn.png">
             <div class="player">
                 <p>Player: not auth</p>
                 <p id="playerGreeting">Score: 0</p>
@@ -44,15 +46,29 @@
         </div>
     </div>
 
-    <!--<script type="text/javascript" src="/modules/http.js"></script>
-    <script type="text/javascript" src="/services/siteService.js"></script>
-    <script type="text/javascript" src="/services/manage.js"></script>
-    <script src="services/manage.js"></script>
-    <script type="text/javascript" src="static/components/login.js"></script>-->
-    <script type="text/javascript" src="static/components/game.js"></script>
+    <!--Game-->
+    <div id="game">
+
+    </div>
+
+    <script type="text/javascript" src="http://pointjs.ru/point.js"></script> <!--Game engine-->
+
+    <!--<script src="game/startVars.js"></script>-->
+    <!--<script src="game/person.js"></script>-->
+    <!--<script src="game/items.js"></script>-->
+    <!--<script src="game/weapon.js"></script>-->
+    <!--<script src="game/enemy.js"></script>-->
+    <!--<script src="game/specials.js"></script>-->
+    <!--<script src="game/gui.js"></script>-->
+    <!--<script src="game/map.js"></script>-->
+    <!--<script src="game/audio.js"></script>-->
+    <!--<script src="game/timer.js"></script>-->
+    <!--<script src="game/pause.js"></script>-->
+    <!--<script src="game/tutorial.js"></script>-->
+    <!--<script src="game/main.js"></script>-->
+
+
     <script type="text/javascript" src="static/main.js"></script>
-
-
 
 </body>
 
