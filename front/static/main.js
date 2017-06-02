@@ -72,9 +72,9 @@
 
 "use strict";
 class baseComponent {
-    constructor(options = null) {
+    constructor() {
         this.content = document.createElement('div');
-        this.options = options;
+        //this.options = options;
         //this.renderTemplate = renderTemplate;
         //this.render(this.renderTemplate);
     }
@@ -450,6 +450,7 @@ class Manage {
     }
 
     showLogin() {
+
         //document.getElementById("PointJS-canvas_0").hidden = true;
         this.indPage.hidden = true;
         this.loginPage.hidden = false;
@@ -547,8 +548,8 @@ class Manage {
                 console.log("into login-200");
             }
             console.log("into login-200");
-            this.showInd();
-            //game.startLoop("l1");
+            //this.showInd();
+            game.startLoop("l1");
         }).catch(err => {
             console.log('fetch error: ', err);
         });
@@ -604,10 +605,10 @@ class Manage {
                 // game.startLoop("l1");
                 // document.getElementById("PointJS-canvas_0").classList.remove("game-canvas-not");
                 // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-active"); //TODO: fix login
-                this.showLogin();
+                //this.showLogin();
 
-                //this.router.nav('/game');
-                Router.nav('/login');
+                this.router.nav('/game');
+                //Router.nav('/login');
             }.bind(this));
         }
         document.getElementById('menuRating').addEventListener("click", function () {
@@ -653,7 +654,9 @@ window.Manage = Manage;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
 let manage = window.manage;
@@ -709,8 +712,14 @@ var Router = {
     },
 
     loginPage: function () {
+
         history.pushState(null, null, "/login");
+        manage = window.manage;
         manage.showLogin();
+        document.getElementById("username").addEventListener("onfocus", function () {
+            console.log(1);
+            this.autofocus = true;
+        });
     },
 
     gamePage: function () {

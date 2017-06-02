@@ -8,9 +8,9 @@
             this.shotPoint = shotPoint;
         }
 
-        createShot(fileName = "game/assets/pistolShot.png", sp = 10, dm = 1){
+        createShot(/*fileName = "game/assets/pistolShot.png",*/ sp = 10, dm = 1){
             let bull = this.game.newImageObject({
-                file: fileName,
+                file: /*fileName*/"game/assets/pistolShot.png",
                 x: this.shotPoint.getPositionC().x,
                 y: this.shotPoint.getPositionC().y,
                 scale: 0.35,
