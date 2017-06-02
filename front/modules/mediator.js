@@ -2,7 +2,7 @@
  * Created by shine on 30.05.17.
  */
 window.Mediator = (function (window) {
-    const EventEmitter2 = window.EventEmitter2;
+    let EventEmitter2 = window.EventEmitter2;
 
     /**
      * Медиатор (Event Bus)
@@ -38,8 +38,11 @@ window.Mediator = (function (window) {
          * @param {String} name - имя события
          * @param {Object} [payload=null] - объект с данными события
          */
-        emit(name, payload = null) {
+        emit(name, payload) {
             // console.log('Mediator.fn.emit', arguments);
+            if (!payload) {
+                payload = null;
+            }
             this.__emitter.emit(name, {name, payload});
         }
 

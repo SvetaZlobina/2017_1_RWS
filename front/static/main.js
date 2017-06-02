@@ -321,7 +321,7 @@ function pug_rethrow(err, filename, lineno, str){
     throw err;
   }
   try {
-    str = str || __webpack_require__(17).readFileSync(filename, 'utf8')
+    str = str || __webpack_require__(16).readFileSync(filename, 'utf8')
   } catch (ex) {
     pug_rethrow(err, null, lineno)
   }
@@ -368,21 +368,21 @@ function pug_rethrow(err, filename, lineno, str){
 
 class Manage {
     constructor() {
-        this.router = window.router;
-        window.onpopstate = function (e) {
-            e.preventDefault();
-            let l = getLocation(document.location.href);
-            this.router.nav(l.pathname);
-        };
-
-        let str = getLocation(document.location.href).pathname;
-        this.router.nav(str.substring(0, str.length - 1));
+        // this.router = window.router;
+        // window.onpopstate = function(e){
+        //     e.preventDefault();
+        //     let l = getLocation(document.location.href);
+        //     this.router.nav(l.pathname);
+        // };
+        //
+        // let str = getLocation(document.location.href).pathname;
+        // this.router.nav(str.substring(0, str.length - 1));
 
         this.indPage = document.getElementById("ind");
         this.loginPage = document.getElementById("log");
         this.ratPage = document.getElementById("rat");
         this.aboutPage = document.getElementById("about");
-        this.modePage = document.getElementById("mode");
+        // this.modePage = document.getElementById("mode");
         this.backButton = document.getElementById("backButton");
         this.loadPage = document.getElementById("load");
         //this.soundButton = document.getElementById("soundButton");
@@ -403,23 +403,23 @@ class Manage {
         this.logicAuth = false;
         this.soundButtonEventsListener();
 
-        this.renderMenu = __webpack_require__(15);
-        this.renderRating = __webpack_require__(16);
+        this.renderMenu = __webpack_require__(14);
+        this.renderRating = __webpack_require__(15);
         this.renderAbout = __webpack_require__(12);
-        this.renderLogin = __webpack_require__(14);
-        this.renderGameMode = __webpack_require__(13);
+        this.renderLogin = __webpack_require__(13);
+        // this.renderGameMode = require("../components/gameMode/gameModeTemplate.pug");
 
         this.indPage.appendChild(this.menu.content);
         this.ratPage.appendChild(this.rating.content);
         this.loginPage.appendChild(this.login.content);
         this.aboutPage.appendChild(this.about.content);
-        this.modePage.appendChild(this.gameMode.content);
+        // this.modePage.appendChild(this.gameMode.content);
 
         this.loadPage.hidden = false;
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
         this.aboutPage.hidden = true;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.hidden = true;
 
         this.backButtonEventsListener();
@@ -430,9 +430,11 @@ class Manage {
         this.indPage.hidden = true;
         this.ratPage.hidden = true;
         this.aboutPage.hidden = true;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.style.visibility = "visible";
         this.loginPage.hidden = true;
+
+        history.pushState(null, null, "/rating");
 
         this.siteService.makeRating().then(response => {
             response.json().then(function (data) {
@@ -454,11 +456,13 @@ class Manage {
         //document.getElementById("PointJS-canvas_0").hidden = true;
         this.indPage.hidden = true;
         this.loginPage.hidden = false;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.ratPage.hidden = true;
         this.aboutPage.hidden = true;
         this.backButton.style.visibility = "visible";
         this.loadPage.hidden = true;
+
+        history.pushState(null, null, "/login");
 
         this.login.render(this.renderLogin());
         this.login.on("submit", event => {
@@ -471,18 +475,24 @@ class Manage {
 
                 this.userLogin(document.getElementById("username").value, document.getElementById("password").value, null, null);
             }
+            // document.getElementById("username").addEventListener("onfocus", function () {
+            //     console.log(1);
+            //     this.autofocus = true;
+            // })
         });
     }
 
     showAbout() {
         this.indPage.hidden = true;
         this.aboutPage.hidden = false;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.hidden = false;
         this.loadPage.hidden = true;
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
         this.backButton.style.visibility = "visible";
+
+        history.pushState(null, null, "/about");
 
         this.about.render(this.renderAbout());
     }
@@ -493,8 +503,10 @@ class Manage {
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
         this.aboutPage.hidden = true;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.style.visibility = "hidden";
+
+        history.pushState(null, null, "/");
 
         this.siteService.checkAuth().then(response => {
             response.json().then(function (data) {
@@ -516,7 +528,7 @@ class Manage {
     }
 
     showGameMode() {
-        this.modePage.hidden = false;
+        // this.modePage.hidden = false;
         this.indPage.hidden = true;
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
@@ -528,6 +540,8 @@ class Manage {
     }
 
     showGame() {
+        history.pushState(null, null, "/game");
+
         var startGame = new StartGame();
         startGame.init();
         console.log("manage: before startLoop");
@@ -549,7 +563,8 @@ class Manage {
             }
             console.log("into login-200");
             //this.showInd();
-            game.startLoop("l1");
+            //game.startLoop("l1");
+            this.showInd();
         }).catch(err => {
             console.log('fetch error: ', err);
         });
@@ -564,7 +579,8 @@ class Manage {
             if (response.status === 200) {
                 this.logicAuth = true;
                 //location.href = 'game/index.html';
-                this.router.nav('/game');
+                //this.router.nav('/game');
+                this.showInd();
             }
         }).catch(err => {
             console.log('fetch error: ', err);
@@ -574,7 +590,8 @@ class Manage {
     userLogout() {
         console.log("start logout");
         this.siteService.logout().then(response => {
-            this.router.nav('/');
+            //this.router.nav('/');
+            this.showInd();
 
             if (response.status === 200) {
                 this.logicAuth = false;
@@ -587,18 +604,13 @@ class Manage {
     menuEventsListener(logicAuth) {
         if (logicAuth) {
             document.getElementById('menuStartAuth').addEventListener("click", function () {
-                //this.showGameMode();
-                //location.href = 'game/index.html';
-                // game.startLoop("l1");
-                // document.getElementById("PointJS-canvas_0").classList.remove("game-canvas-not");
-                // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-active");
-
-                //let startGame = new StartGame();
-                this.router.nav('/game');
+                this.showGame();
+                //this.router.nav('/game');
             }.bind(this));
             document.getElementById('menuLogout').addEventListener("click", function () {
                 this.userLogout();
-                this.router.nav('/');
+
+                //this.router.nav('/');
             }.bind(this));
         } else {
             document.getElementById('menuStartNotAuth').addEventListener("click", function () {
@@ -607,25 +619,29 @@ class Manage {
                 // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-active"); //TODO: fix login
                 //this.showLogin();
 
-                this.router.nav('/game');
+                //this.router.nav('/game');
                 //Router.nav('/login');
+                this.showLogin();
             }.bind(this));
         }
         document.getElementById('menuRating').addEventListener("click", function () {
             //window.showRating();
-            this.router.nav('/rating');
+            //this.router.nav('/rating');
+            this.showRating();
             //this.makeRating();
             //rating.render(renderRating({'players': playerNames}));
         }.bind(this));
         document.getElementById('menuAbout').addEventListener("click", function () {
             //this.showAbout();
-            this.router.nav('/about');
+            //this.router.nav('/about');
+            this.showAbout();
         }.bind(this));
     }
 
     backButtonEventsListener() {
         document.getElementById('backButton').addEventListener("click", function () {
-            this.router.nav('/');
+            //this.router.nav('/');
+            this.showInd();
             // this.showInd();
             // console.log("backButtonEventListener");
         }.bind(this));
@@ -648,15 +664,19 @@ class Manage {
 /* harmony export (immutable) */ __webpack_exports__["a"] = Manage;
 
 
-window.Manage = Manage;
+//window.Manage = Manage;
 
 //var manage = new Manage();
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Router; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__manage__ = __webpack_require__(2);
+
+
 
 
 let manage = window.manage;
@@ -664,11 +684,13 @@ let manage = window.manage;
 var Router = {
     routes: {
         "/": "indexPage",
-        "/rating": "ratingPage",
-        "/about": "aboutPage",
-        "/login": "loginPage",
-        "/game": "gamePage"
+        "/rating/": "ratingPage",
+        "/about/": "aboutPage",
+        "/login/": "loginPage",
+        "/game/": "gamePage"
     },
+    manage: new __WEBPACK_IMPORTED_MODULE_0__manage__["a" /* default */](),
+
     init: function () {
         this._routes = [];
         for (var route in this.routes) {
@@ -691,31 +713,47 @@ var Router = {
 
     indexPage: function () {
         history.pushState(null, null, "/");
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
         // startGame.game.clear();
         // startGame.game.stop();
         // document.getElementById("PointJS-canvas_0").classList.remove("game-canvas-active");
         // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-not");
-        manage = window.manage;
-        manage.showInd();
+        //manage = window.manage;
+        this.manage.showInd();
     },
 
     ratingPage: function () {
         history.pushState(null, null, "/rating");
-        manage = window.manage;
-        manage.showRating();
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
+        //manage = window.manage;
+        this.manage.showRating();
     },
 
     aboutPage: function () {
         history.pushState(null, null, "/about");
-        manage = window.manage;
-        manage.showAbout();
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
+        //manage = window.manage;
+        this.manage.showAbout();
     },
 
     loginPage: function () {
 
         history.pushState(null, null, "/login");
-        manage = window.manage;
-        manage.showLogin();
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
+        //manage = window.manage;
+        this.manage.showLogin();
         document.getElementById("username").addEventListener("onfocus", function () {
             console.log(1);
             this.autofocus = true;
@@ -724,9 +762,8 @@ var Router = {
 
     gamePage: function () {
         history.pushState(null, null, "/game");
-        manage = window.manage;
-        manage.showGame();
-        console.log("in router");
+        //manage = window.manage;
+        this.manage.showGame();
     }
 };
 
@@ -744,12 +781,13 @@ window.onpopstate = function (e) {
 
 window.router = Router;
 
-Router.init();
-let str = getLocation(document.location.href).pathname;
-
-Router.init();
-//alert(str.substring(0, str.length - 1));
-Router.nav(str.substring(0, str.length - 1));
+// Router.init();
+// let str = getLocation(document.location.href).pathname;
+//
+//
+// Router.init();
+// //alert(str.substring(0, str.length - 1));
+// Router.nav(str.substring(0, str.length - 1));
 
 /***/ }),
 /* 4 */
@@ -759,23 +797,38 @@ Router.nav(str.substring(0, str.length - 1));
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_services_manage__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__static_services_router__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__static_services_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__static_services_router__);
 
 
 
 (function () {
+    // let Application = window.Application;
+    // let Mediator = window.Mediator;
 
-    let manage = new __WEBPACK_IMPORTED_MODULE_0__static_services_manage__["a" /* default */]();
-    window.manage = manage;
-    //console.log(window.manage);
+    // let manage = new Manage();
+    // window.manage = manage;
+    //
+    // manage.showInd();
+
+    // Mediator.initialize();
+    // let app = new Application;
+    // app.start();
 
 
-    //window.showInd = manage.showInd();
-    //window.showRating = manage.showRating();
-    //window.showLogin = manage.showLogin();
-    //window.showAbout = manage.showAbout();
-    //window.showGame = manage.showGame();
-    manage.showInd();
+    let getLocation = function (href) {
+        let l = document.createElement("a");
+        l.href = href;
+        return l;
+    };
+
+    __WEBPACK_IMPORTED_MODULE_1__static_services_router__["a" /* Router */].init();
+
+    console.log(document.location.href);
+
+    let str = getLocation(document.location.href).pathname;
+    console.log(str);
+    console.log(str.substring(0, str.length - 1));
+
+    __WEBPACK_IMPORTED_MODULE_1__static_services_router__["a" /* Router */].nav(str);
 })();
 
 /***/ }),
@@ -972,20 +1025,11 @@ module.exports = template;
 
 var pug = __webpack_require__(1);
 
-function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;pug_html = pug_html + "\u003Cdiv id=\"menu\"\u003E\u003Ch1 class=\"h1Title\"\u003ESelect Mode\u003C\u002Fh1\u003E\u003Cdiv class=\"container group\"\u003E\u003Cdiv class=\"gridd-1-5 coll-1\"\u003E\u003Ch3 class=\"h3mode\"\u003E\u003Cspan class=\"uppercase\"\u003EDeathmatch\u003C\u002Fspan\u003E\u003Cimg class=\"msimg\" src=\"resources\u002FdeathMatch.png\"\u003E\u003Cp\u003ESelect a hero and fight agains other players. Kill more than anybody to win.\u003C\u002Fp\u003E\u003C\u002Fh3\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"gridd-1-5 coll-1\"\u003E\u003Ch3 class=\"h3mode\"\u003E\u003Cspan class=\"uppercase\"\u003ECatch Flag\u003C\u002Fspan\u003E\u003Cimg class=\"msimg\" src=\"resources\u002FflagCapture.png\"\u003E\u003Cp\u003ECatch the flag and bring it to your base to earn a point. Team with 5 points wins.\u003C\u002Fp\u003E\u003C\u002Fh3\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"gridd-1-5 coll-1\" onclick=\"location.href = 'game\u002Findex.html'\"\u003E\u003Ch3 class=\"h3mode\"\u003E\u003Cspan class=\"uppercase\"\u003ETutorial\u003C\u002Fspan\u003E\u003Cimg class=\"msimg\" src=\"resources\u002Ftutorial.png\"\u003E\u003Cp\u003ELearn the controls and test weapon and skills before joining muliplayer.\u003C\u002Fp\u003E\u003C\u002Fh3\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";;return pug_html;};
-module.exports = template;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var pug = __webpack_require__(1);
-
 function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;pug_html = pug_html + "\u003Cdiv\u003E\u003Ch1 class=\"h1Title\"\u003EBreak Away\u003C\u002Fh1\u003E\u003Cdiv class=\"menuBody\"\u003E\u003Ca class=\"hiddenanchor\" id=\"toregister\"\u003E\u003C\u002Fa\u003E\u003Ca class=\"hiddenanchor\" id=\"tologin\"\u003E\u003C\u002Fa\u003E\u003Cdiv id=\"wrapper\"\u003E\u003Cdiv class=\"animate form\" id=\"login\"\u003E\u003Cform autocomplete=\"on\"\u003E\u003Ch4\u003E\u003Ca class=\"to_register registerAnc\" href=\"#tologin\"\u003ELog in\u003C\u002Fa\u003E\u003Ca class=\"to_rigister registerAnc\" href=\"#toregister\"\u003ESign up\u003C\u002Fa\u003E\u003C\u002Fh4\u003E\u003Cp\u003E\u003Cinput id=\"username\" name=\"username\" required=\"required\" type=\"text\" placeholder=\"Username\"\u003E\u003C\u002Fp\u003E\u003Cp\u003E\u003Cinput id=\"password\" name=\"password\" required=\"required\" type=\"password\" placeholder=\"Password\"\u003E\u003C\u002Fp\u003E\u003Cp class=\"login button\"\u003E\u003Cinput type=\"submit\" value=\"Login\"\u003E\u003C\u002Fp\u003E\u003C\u002Fform\u003E\u003C\u002Fdiv\u003E\u003Cdiv class=\"animate form\" id=\"register\"\u003E\u003Cform autocomplete=\"on\"\u003E\u003Ch4\u003E\u003Ca class=\"to_register registerAnc\" href=\"#tologin\"\u003ELog in\u003C\u002Fa\u003E\u003Ca class=\"to_register registerAnc\" href=\"#toregister\"\u003ESign up\u003C\u002Fa\u003E\u003C\u002Fh4\u003E\u003Cp\u003E\u003Cinput id=\"usernamesignup\" name=\"usernamesignup\" required=\"required\" type=\"text\" placeholder=\"Username\"\u003E\u003C\u002Fp\u003E\u003Cp\u003E\u003Cinput id=\"emailsignup\" name=\"emailsignup\" required=\"required\" type=\"text\" placeholder=\"Email\"\u003E\u003C\u002Fp\u003E\u003Cp\u003E\u003Cinput id=\"passwordsignup\" name=\"passwordsignup\" required=\"required\" type=\"password\" placeholder=\"Password\"\u003E\u003C\u002Fp\u003E\u003Cp class=\"login button\"\u003E\u003Cinput type=\"submit\" value=\"Sign up\"\u003E\u003C\u002Fp\u003E\u003C\u002Fform\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";;return pug_html;};
 module.exports = template;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pug = __webpack_require__(1);
@@ -1005,7 +1049,7 @@ pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fdiv\u003E";}.call(this,"
 module.exports = template;
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pug = __webpack_require__(1);
@@ -1033,7 +1077,7 @@ pug_html = pug_html + "\u003C\u002Fol\u003E\u003C\u002Fdiv\u003E\u003C\u002Fdiv\
 module.exports = template;
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");

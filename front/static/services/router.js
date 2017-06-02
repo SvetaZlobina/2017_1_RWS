@@ -1,15 +1,18 @@
 "use strict";
+import Manage from './manage';
 
 let manage = window.manage;
 
-var Router = {
+export var Router = {
     routes: {
         "/": "indexPage",
-        "/rating": "ratingPage",
-        "/about": "aboutPage",
-        "/login": "loginPage",
-        "/game":"gamePage"
+        "/rating/": "ratingPage",
+        "/about/": "aboutPage",
+        "/login/": "loginPage",
+        "/game/":"gamePage"
     },
+    manage: new Manage,
+
     init: function (){
         this._routes = [];
         for( var route in this.routes ){
@@ -32,31 +35,47 @@ var Router = {
 
     indexPage: function () {
         history.pushState(null, null, "/");
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
         // startGame.game.clear();
         // startGame.game.stop();
         // document.getElementById("PointJS-canvas_0").classList.remove("game-canvas-active");
         // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-not");
-        manage = window.manage;
-        manage.showInd();
+        //manage = window.manage;
+        this.manage.showInd();
     },
 
     ratingPage: function () {
         history.pushState(null, null, "/rating");
-        manage = window.manage;
-        manage.showRating();
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
+        //manage = window.manage;
+        this.manage.showRating();
     },
 
     aboutPage: function () {
         history.pushState(null, null, "/about");
-        manage = window.manage;
-        manage.showAbout();
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
+        //manage = window.manage;
+        this.manage.showAbout();
     },
 
     loginPage: function () {
 
         history.pushState(null, null, "/login");
-        manage = window.manage;
-        manage.showLogin();
+        var can = document.getElementById("PointJS-canvas_0");
+        if (can) {
+            can.parentNode.removeChild(can);
+        }
+        //manage = window.manage;
+        this.manage.showLogin();
         document.getElementById("username").addEventListener("onfocus", function () {
             console.log(1);
             this.autofocus = true;
@@ -65,9 +84,8 @@ var Router = {
 
     gamePage: function () {
         history.pushState(null, null, "/game");
-        manage = window.manage;
-        manage.showGame();
-        console.log("in router");
+        //manage = window.manage;
+        this.manage.showGame();
     }
 };
 
@@ -85,11 +103,11 @@ window.onpopstate = function(e){
 
 window.router = Router;
 
-Router.init();
-let str = getLocation(document.location.href).pathname;
-
-
-Router.init();
-//alert(str.substring(0, str.length - 1));
-Router.nav(str.substring(0, str.length - 1));
+// Router.init();
+// let str = getLocation(document.location.href).pathname;
+//
+//
+// Router.init();
+// //alert(str.substring(0, str.length - 1));
+// Router.nav(str.substring(0, str.length - 1));
 

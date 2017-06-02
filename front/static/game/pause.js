@@ -47,6 +47,7 @@
                 game.stop();
                 var can = document.getElementById("PointJS-canvas_0");
                 can.parentNode.removeChild(can);
+                history.pushState("/");
             //     document.getElementById("PointJS-canvas_0").classList.add("game-canvas-not");
              }
 

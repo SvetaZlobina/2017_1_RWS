@@ -8,21 +8,21 @@ import Gamemode from '../components/gameMode'
 
 export default class Manage {
     constructor() {
-        this.router = window.router;
-        window.onpopstate = function(e){
-            e.preventDefault();
-            let l = getLocation(document.location.href);
-            this.router.nav(l.pathname);
-        };
-
-        let str = getLocation(document.location.href).pathname;
-        this.router.nav(str.substring(0, str.length - 1));
+        // this.router = window.router;
+        // window.onpopstate = function(e){
+        //     e.preventDefault();
+        //     let l = getLocation(document.location.href);
+        //     this.router.nav(l.pathname);
+        // };
+        //
+        // let str = getLocation(document.location.href).pathname;
+        // this.router.nav(str.substring(0, str.length - 1));
 
         this.indPage = document.getElementById("ind");
         this.loginPage = document.getElementById("log");
         this.ratPage = document.getElementById("rat");
         this.aboutPage = document.getElementById("about");
-        this.modePage = document.getElementById("mode");
+        // this.modePage = document.getElementById("mode");
         this.backButton = document.getElementById("backButton");
         this.loadPage = document.getElementById("load");
         //this.soundButton = document.getElementById("soundButton");
@@ -49,19 +49,19 @@ export default class Manage {
         this.renderRating = require("../components/rating/ratingTemplate.pug");
         this.renderAbout = require("../components/about/aboutTemplate.pug");
         this.renderLogin = require("../components/login/loginTemplate.pug");
-        this.renderGameMode = require("../components/gameMode/gameModeTemplate.pug");
+        // this.renderGameMode = require("../components/gameMode/gameModeTemplate.pug");
 
         this.indPage.appendChild(this.menu.content);
         this.ratPage.appendChild(this.rating.content);
         this.loginPage.appendChild(this.login.content);
         this.aboutPage.appendChild(this.about.content);
-        this.modePage.appendChild(this.gameMode.content);
+        // this.modePage.appendChild(this.gameMode.content);
 
         this.loadPage.hidden = false;
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
         this.aboutPage.hidden = true;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.hidden = true;
 
         this.backButtonEventsListener();
@@ -72,9 +72,11 @@ export default class Manage {
         this.indPage.hidden = true;
         this.ratPage.hidden = true;
         this.aboutPage.hidden = true;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.style.visibility = "visible";
         this.loginPage.hidden = true;
+
+        history.pushState(null, null, "/rating");
 
         this.siteService.makeRating().then(response => {
             response.json().then(function (data) {
@@ -96,11 +98,14 @@ export default class Manage {
         //document.getElementById("PointJS-canvas_0").hidden = true;
         this.indPage.hidden = true;
         this.loginPage.hidden = false;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.ratPage.hidden = true;
         this.aboutPage.hidden = true;
         this.backButton.style.visibility = "visible";
         this.loadPage.hidden = true;
+
+        history.pushState(null, null, "/login");
+
 
         this.login.render(this.renderLogin());
         this.login.on("submit", (event) => {
@@ -116,18 +121,24 @@ export default class Manage {
                 this.userLogin(document.getElementById("username").value, document.getElementById("password").value, null, null);
 
             }
+            // document.getElementById("username").addEventListener("onfocus", function () {
+            //     console.log(1);
+            //     this.autofocus = true;
+            // })
         });
     }
 
     showAbout() {
         this.indPage.hidden = true;
         this.aboutPage.hidden = false;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.hidden = false;
         this.loadPage.hidden = true;
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
         this.backButton.style.visibility = "visible";
+
+        history.pushState(null, null, "/about");
 
         this.about.render(this.renderAbout());
 
@@ -139,8 +150,11 @@ export default class Manage {
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
         this.aboutPage.hidden = true;
-        this.modePage.hidden = true;
+        // this.modePage.hidden = true;
         this.backButton.style.visibility = "hidden";
+
+        history.pushState(null, null, "/");
+
 
         this.siteService.checkAuth().then(response => {
             response.json().then(function (data) {
@@ -163,7 +177,7 @@ export default class Manage {
     }
 
     showGameMode() {
-        this.modePage.hidden = false;
+        // this.modePage.hidden = false;
         this.indPage.hidden = true;
         this.ratPage.hidden = true;
         this.loginPage.hidden = true;
@@ -177,6 +191,8 @@ export default class Manage {
     }
 
     showGame() {
+        history.pushState(null, null, "/game");
+
         var startGame = new StartGame();
         startGame.init();
         console.log("manage: before startLoop");
@@ -198,7 +214,8 @@ export default class Manage {
             }
             console.log("into login-200");
             //this.showInd();
-            game.startLoop("l1");
+            //game.startLoop("l1");
+            this.showInd();
         }).catch(err => {
             console.log('fetch error: ', err);
         });
@@ -214,7 +231,8 @@ export default class Manage {
             if (response.status === 200) {
                 this.logicAuth = true;
                 //location.href = 'game/index.html';
-                this.router.nav('/game');
+                //this.router.nav('/game');
+                this.showInd();
             }
 
 
@@ -226,7 +244,8 @@ export default class Manage {
     userLogout() {
         console.log("start logout");
         this.siteService.logout().then(response => {
-            this.router.nav('/');
+            //this.router.nav('/');
+            this.showInd();
 
             if (response.status === 200) {
                 this.logicAuth = false;
@@ -240,18 +259,13 @@ export default class Manage {
     menuEventsListener(logicAuth) {
         if (logicAuth) {
             document.getElementById('menuStartAuth').addEventListener("click", function () {
-                //this.showGameMode();
-                //location.href = 'game/index.html';
-                // game.startLoop("l1");
-                // document.getElementById("PointJS-canvas_0").classList.remove("game-canvas-not");
-                // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-active");
-
-                //let startGame = new StartGame();
-                this.router.nav('/game');
+                this.showGame();
+                //this.router.nav('/game');
             }.bind(this));
             document.getElementById('menuLogout').addEventListener("click", function () {
                 this.userLogout();
-                this.router.nav('/');
+
+                //this.router.nav('/');
             }.bind(this));
         } else {
             document.getElementById('menuStartNotAuth').addEventListener("click", function () {
@@ -260,26 +274,31 @@ export default class Manage {
                 // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-active"); //TODO: fix login
                 //this.showLogin();
 
-                this.router.nav('/game');
+                //this.router.nav('/game');
                 //Router.nav('/login');
+                this.showLogin();
+
             }.bind(this));
 
         }
         document.getElementById('menuRating').addEventListener("click", function () {
             //window.showRating();
-            this.router.nav('/rating');
+            //this.router.nav('/rating');
+            this.showRating();
             //this.makeRating();
             //rating.render(renderRating({'players': playerNames}));
         }.bind(this));
         document.getElementById('menuAbout').addEventListener("click", function () {
             //this.showAbout();
-            this.router.nav('/about');
+            //this.router.nav('/about');
+            this.showAbout();
         }.bind(this));
     }
 
     backButtonEventsListener(){
         document.getElementById('backButton').addEventListener("click", function () {
-            this.router.nav('/');
+            //this.router.nav('/');
+            this.showInd();
             // this.showInd();
             // console.log("backButtonEventListener");
         }.bind(this));
@@ -301,6 +320,6 @@ export default class Manage {
     }
 }
 
-window.Manage = Manage;
+//window.Manage = Manage;
 
 //var manage = new Manage();
