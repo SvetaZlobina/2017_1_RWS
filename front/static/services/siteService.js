@@ -5,14 +5,14 @@ export default class SiteService {
         this.http = new HTTP();
     }
 
-    login(login, password, callback1 = null, callback2 = null) {
+    login(login, password) {
         const body = {
             login, password
         };
         return this.http.request('https://rws-backend.herokuapp.com/api/session', 'POST', body);
     }
 
-    register(login, email, password, callback1 = null, callback2 = null) {
+    register(login, email, password) {
         const body = {
             login, email, password
         };

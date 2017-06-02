@@ -539,10 +539,10 @@ class Manage {
         // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-active");
     }
 
-    userLogin(login, password, callback1 = null, callback2 = null) {
+    userLogin(login, password) {
 
         console.log("into login");
-        this.siteService.login(login, password, callback1 = null, callback2 = null).then(response => {
+        this.siteService.login(login, password).then(response => {
             if (response.status === 200) {
                 this.logicAuth = true;
                 console.log("into login-200");
@@ -555,9 +555,9 @@ class Manage {
         });
     }
 
-    userRegister(login, email, password, callback1 = null, callback2 = null) {
+    userRegister(login, email, password) {
         console.log("into userRegister");
-        this.siteService.register(login, email, password, callback1 = null, callback2 = null).then(response => {
+        this.siteService.register(login, email, password).then(response => {
             response.json().then(function (data) {
                 console.log(data);
             });
@@ -792,7 +792,7 @@ class HTTP {
         HTTP.__instance = this;
     }
 
-    request(address = '', type = '', body) {
+    request(address, type, body) {
         let req = {
             method: type,
             mode: 'cors',
@@ -907,14 +907,14 @@ class SiteService {
         this.http = new __WEBPACK_IMPORTED_MODULE_0__modules_http__["a" /* default */]();
     }
 
-    login(login, password, callback1 = null, callback2 = null) {
+    login(login, password) {
         const body = {
             login, password
         };
         return this.http.request('https://rws-backend.herokuapp.com/api/session', 'POST', body);
     }
 
-    register(login, email, password, callback1 = null, callback2 = null) {
+    register(login, email, password) {
         const body = {
             login, email, password
         };

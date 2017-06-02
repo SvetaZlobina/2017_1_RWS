@@ -188,10 +188,10 @@ export default class Manage {
         // document.getElementById("PointJS-canvas_0").classList.add("game-canvas-active");
     }
 
-    userLogin(login, password, callback1 = null, callback2 = null) {
+    userLogin(login, password) {
 
         console.log("into login");
-        this.siteService.login(login, password, callback1 = null, callback2 = null).then(response => {
+        this.siteService.login(login, password).then(response => {
             if (response.status === 200) {
                 this.logicAuth = true;
                 console.log("into login-200");
@@ -205,9 +205,9 @@ export default class Manage {
 
     }
 
-    userRegister(login, email, password, callback1 = null, callback2 = null) {
+    userRegister(login, email, password) {
         console.log("into userRegister");
-        this.siteService.register(login, email, password, callback1 = null, callback2 = null).then(response => {
+        this.siteService.register(login, email, password).then(response => {
             response.json().then(function (data) {
                 console.log(data);
             });

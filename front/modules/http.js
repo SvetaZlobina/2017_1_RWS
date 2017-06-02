@@ -7,7 +7,7 @@ export default class HTTP {
         HTTP.__instance = this;
     }
 
-    request(address='', type='', body){
+    request(address, type, body){
         let req = {
             method: type,
             mode:'cors',
