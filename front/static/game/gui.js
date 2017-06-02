@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     class GUI {
         constructor(game, player, specials) {
             this.back = game.newRoundRectObject({

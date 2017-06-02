@@ -1,4 +1,6 @@
 (function () {
+    "use strict";
+
     class Items {
         constructor() {
             this.weapons = [];

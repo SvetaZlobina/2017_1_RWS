@@ -2,6 +2,7 @@
 
 //manage = new Manage();
 (function () {
+    "use strict";
     class Pause {
         constructor(game, point) {
             this.pause = false;

@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     class Enemy {
         constructor(image, a, b, pjs, game, weapon) {
             this.x = a;

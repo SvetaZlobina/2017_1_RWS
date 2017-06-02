@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     class Specials {
         constructor(shotPoint) {
             this.specs = [];

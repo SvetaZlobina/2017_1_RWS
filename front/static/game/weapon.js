@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     class Weapon {
         constructor(game, shotPoint) {
             this.bulls = [];

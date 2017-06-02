@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     class Audio {
         constructor() {
             this.main_theme = audio.newAudio("game/assets/main_theme.mp3");

@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     class Timer {
         constructor() {
             this.time = 600;

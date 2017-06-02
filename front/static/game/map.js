@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     class Map {
         constructor(pjs) {
             this.width = 26;
