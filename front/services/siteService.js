@@ -6,14 +6,14 @@ export default class SiteService {
     }
 
     login(login, password, callback1 = null, callback2 = null) {
-        const body = {
+        let body = {
             login, password
         };
         return this.http.request('https://rws-backend.herokuapp.com/api/session', 'POST', body);
     }
 
     register(login, email, password, callback1 = null, callback2 = null) {
-        const body = {
+        let body = {
             login, email, password
         };
         return this.http.request('https://rws-backend.herokuapp.com/api/signup', 'POST', body);
