@@ -4,9 +4,7 @@ RUN apk add --update bash
 
 COPY ./nginx.conf /etc/nginx
 COPY ./front/html /usr/share/nginx/site/html
-COPY ./front/services /usr/share/nginx/site/services
 COPY ./front/static/ /usr/share/nginx/site/static
-COPY ./front/resources /usr/share/nginx/site/resources
 
 
 RUN mkdir /usr/share/nginx/logs
