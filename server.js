@@ -11,6 +11,7 @@ module.exports = pug;
 
 
 app.use('/', express.static('front'));
+app.use('/', express.static('front/html'));
 app.use('/', express.static('front/static'));
 app.use('/about', express.static('front'));
 app.use('/about', express.static('front/static'));
