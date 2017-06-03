@@ -8,7 +8,7 @@
             this.shotPoint = shotPoint;
         }
 
-        createShot(/*fileName = "game/assets/pistolShot.png",*/ sp = 10, dm = 1){
+        createShot(/*fileName = "game/assets/pistolShot.png", sp = 10, dm = 1*/){
             let bull = this.game.newImageObject({
                 file: /*fileName*/"game/assets/pistolShot.png",
                 x: this.shotPoint.getPositionC().x,
@@ -19,8 +19,8 @@
                     life: 1
                 }
             });
-            bull.damage = dm;
-            bull.speed = sp;
+            bull.damage = 1;
+            bull.speed = 10;
             this.bulls.push(bull);
         }
 
